@@ -1,0 +1,28 @@
+#SVN
+.svn
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
+
+#Node Grunt Bower
+node_modules
+bower_components
+phantomjsdriver.log
+.grunt
+_SpecRunner.html
+target-grunt
