@@ -1,22 +1,21 @@
-package test;
+package scalajava;
 
 import static org.junit.Assert.*;
 
 import javax.script.Compilable;
 import javax.script.CompiledScript;
-import javax.script.ScriptEngine;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import scala.tools.nsc.Settings;
 import scala.tools.nsc.interpreter.*;
 
 public class ScalaTest {
-	private static IMain engine;
+	private IMain engine;
 
-	@BeforeClass
-	public static void asd() {
+	@Before
+	public void asd() {
 		Settings settings = new Settings();
 		settings.usejavacp().tryToSetFromPropertyValue("true");
 		engine = new IMain(settings);
@@ -36,7 +35,7 @@ public class ScalaTest {
 	public void interpreted() throws Exception {	
 		engine.put("n: Int", 10);
 		for (int i = 0; i < 3; i++) {
-			Object ret = engine.eval("import holiday._\n" + "def asd(n: Int) : Int = if (n == 0) 42 else {\n"
+			Object ret = engine.eval("import scalajava._\n" + "def asd(n: Int) : Int = if (n == 0) 42 else {\n"
 					+ "println(\"recursing...\")\n" + "asd(n-1) } \n" + "println(\"hello! \" + new MyJavaObj)\n"
 					+ "asd(3)");
 			assertEquals(42, ret);
@@ -46,7 +45,7 @@ public class ScalaTest {
 	@Test
 	public void compiled() throws Exception {
 		Compilable c = engine;
-		CompiledScript script = c.compile("import holiday._\n" +
+		CompiledScript script = c.compile("import scalajava._\n" +
 				"def asd(n: Int) : Int = if (n == 0) 42 else {\n" +
 				"println(\"recursing...\")\n" +
 				"asd(n-1) } \n" +
@@ -54,12 +53,9 @@ public class ScalaTest {
 				"asd(3)");
 		
 		long t1 = System.currentTimeMillis();
-		Object ret = null;
 		for (int i = 0; i < 3; i++) {
-			ret = script.eval();
+			assertEquals(42, script.eval());
 		}
 		System.out.println("compiled took " + (System.currentTimeMillis() - t1) + "ms");
-		
-		assertEquals(42, ret);
 	}
 }

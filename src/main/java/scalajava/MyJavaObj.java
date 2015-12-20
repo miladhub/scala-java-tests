@@ -1,4 +1,4 @@
-package holiday;
+package scalajava;
 
 public class MyJavaObj {
 
